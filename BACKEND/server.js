@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+
+
 require("dotenv").config();
 
 const app = express();
@@ -9,27 +11,21 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// MongoDB Connect
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.log("❌ MongoDB connection error:", err));
 
-// Routes
+// ✅ Routes
 const authRoutes = require("./routes/auth");
-const bookingRoutes = require("./routes/booking");
-const carRoutes = require("./routes/carRoutes");
-const razorpayRoutes = require("./routes/razorpay");
+const carRoutes = require("./routes/car");
+const razorpayRoutes = require("./routes/razorpay"); 
+const bookingRoutes = require("./routes/booking"); 
 
-
-app.use("/api/razorpay", razorpayRoutes);
+app.use("/api/bookings" , bookingRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/bookings", bookingRoutes);
 app.use("/api/cars", carRoutes);
-
-app.use("/api/bookings", bookingRoutes);
-
-
-
-
+app.use("/api/razorpay", razorpayRoutes); 
 
 app.get("/", (req, res) => res.send("API is running..."));
 

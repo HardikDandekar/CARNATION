@@ -1,117 +1,119 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Dashboard = () => {
-  const [showAdminForm, setShowAdminForm] = useState(false);
-  const [showUserForm, setShowUserForm] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [formType, setFormType] = useState(""); // 'admin' | 'user-login' | 'user-register'
+  const [name, setName] = useState("");
+  const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleRegister = async () => {
     try {
-      const url = showAdminForm
-        ? "http://localhost:3000/api/auth/login"
-        : isLogin
-        ? "http://localhost:3000/api/auth/login"
-        : "http://localhost:3000/api/auth/register";
+      const payload = { name, mobile, email, password };
+      const res = await axios.post("http://localhost:3000/api/auth/register", payload);
+      alert(res.data.message);
+      setFormType("user-login");
+    } catch (err) {
+      alert(err.response?.data?.message || "Registration failed");
+    }
+  };
 
-      const payload = showAdminForm || isLogin
-        ? { email, password }
-        : { name, email, password };
-
-      const response = await axios.post(url, payload);
-
-      if (response.data.role === "admin") {
-        alert("Admin login success");
-        localStorage.setItem("userName", response.data.adminName);
+  const handleAdminLogin = async () => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/auth/login/admin", { email, password });
+      if (res.data.role === "admin") {
+        localStorage.setItem("userName", res.data.adminName);
+        alert("Admin Login Success");
         navigate("/adminourfleet");
-      } else if (response.data.role === "user") {
-        alert("User login success");
-        localStorage.setItem("userName", response.data.userName);
-        navigate("/home");
+      } else {
+        alert("Invalid admin credentials");
       }
     } catch (err) {
-      alert(err.response?.data?.message || "Something went wrong");
+      alert(err.response?.data?.message || "Admin login failed");
+    }
+  };
+
+  const handleUserLogin = async () => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/auth/login", { email, password });
+      if (res.data.role === "user") {
+        localStorage.setItem("userName", res.data.userName);
+        alert("User Login Success");
+        navigate("/home");
+      } else {
+        alert("Invalid user credentials");
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "User login failed");
     }
   };
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
-      <motion.div
-        initial={{ opacity: 1 }}
-        animate={{ opacity: 0 }}
-        transition={{ duration: 1 }}
-        className="absolute top-0 left-0 w-full h-full bg-black"
-      />
-
-      <motion.video
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2, delay: 1 }}
+      {/* Background Video */}
+      <video
         autoPlay
-        loop
         muted
-        className="absolute top-0 left-0 w-full h-full object-cover blur-xs"
-        src="https://videos.pexels.com/video-files/5379995/5379995-sd_640_360_24fps.mp4"
-      />
+        loop
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="/Users/hardikdandekar/Desktop/MajorProject/FRONTEND/src/assets 19-35-03-188/16431350-sd_640_360_24fps.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
-      <div className="relative flex flex-col md:flex-row items-center justify-center h-full gap-6 z-10 p-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 2 }}
-        >
-          <div
-            className="text-center h-48 w-48 md:h-72 md:w-72 flex justify-center items-center text-2xl md:text-4xl font-bold text-white cursor-pointer bg-white/30 rounded-xl shadow-2xl p-6 hover:scale-105 transition-all ease-out"
-            onClick={() => {
-              setShowAdminForm(true);
-              setShowUserForm(false);
-              setIsLogin(true);
-            }}
-          >
-            Admin
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-60 z-10" />
+
+      {/* Content */}
+      <div className="relative z-20 flex flex-col items-center justify-center h-full px-4">
+        {!formType && (
+          <div className="flex flex-col md:flex-row gap-6 animate-fade-in">
+            <button
+              onClick={() => setFormType("admin")}
+              className="bg-blue-600 text-white px-24 py-18 rounded-xl text-2xl hover:bg-blue-700 transition-all duration-300"
+            >
+              Admin
+            </button>
+            <button
+              onClick={() => setFormType("user-login")}
+              className="bg-green-600 text-white px-24 py-18 rounded-xl text-2xl hover:bg-green-700 transition-all duration-300"
+            >
+              User
+            </button>
           </div>
-        </motion.div>
+        )}
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 2.2 }}
-        >
-          <div
-            className="text-center h-48 w-48 md:h-72 md:w-72 flex justify-center items-center text-2xl md:text-4xl font-bold text-white cursor-pointer bg-white/30 rounded-xl shadow-2xl p-6 hover:scale-105 transition-all ease-out"
-            onClick={() => {
-              setShowUserForm(true);
-              setShowAdminForm(false);
-              setIsLogin(true);
-            }}
-          >
-            User
-          </div>
-        </motion.div>
-      </div>
-
-      {(showAdminForm || showUserForm) && (
-        <div className="absolute inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-          <div className="bg-white p-6 rounded-xl w-full max-w-sm">
-            <h2 className="text-xl font-bold mb-4 text-center">
-              {showAdminForm ? "Admin Login" : isLogin ? "User Login" : "User Registration"}
+        {(formType === "admin" || formType === "user-login" || formType === "user-register") && (
+          <div className="bg-white bg-opacity-90 p-6 rounded-xl shadow-lg w-full max-w-md animate-slide-up mt-6">
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              {formType === "admin"
+                ? "Admin Login"
+                : formType === "user-login"
+                ? "User Login"
+                : "User Registration"}
             </h2>
 
-            {!isLogin && showUserForm && (
-              <input
-                type="text"
-                placeholder="Name"
-                className="w-full mb-3 px-3 py-2 border rounded"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+            {formType === "user-register" && (
+              <>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="w-full mb-3 px-3 py-2 border rounded"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Mobile"
+                  className="w-full mb-3 px-3 py-2 border rounded"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                />
+              </>
             )}
 
             <input
@@ -129,37 +131,84 @@ const Dashboard = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button
-              className="w-full bg-red-500 text-white py-2 rounded mb-3"
-              onClick={handleSubmit}
-            >
-              {showAdminForm ? "Login" : isLogin ? "Login" : "Register"}
-            </button>
-
-            {showUserForm && (
-              <p className="text-sm text-center">
-                {isLogin ? "New user?" : "Already have an account?"} {" "}
-                <span
-                  className="text-blue-600 cursor-pointer underline"
-                  onClick={() => setIsLogin(!isLogin)}
-                >
-                  {isLogin ? "Register" : "Login"}
-                </span>
-              </p>
+            {formType === "admin" && (
+              <button
+                onClick={handleAdminLogin}
+                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              >
+                Login
+              </button>
             )}
 
-            <button
-              onClick={() => {
-                setShowAdminForm(false);
-                setShowUserForm(false);
-              }}
-              className="text-red-500 text-sm underline block text-center mt-4"
-            >
-              Close
-            </button>
+            {formType === "user-login" && (
+              <>
+                <button
+                  onClick={handleUserLogin}
+                  className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+                >
+                  Login
+                </button>
+                <p className="text-sm mt-3 text-center text-gray-800">
+                  Don't have an account?{" "}
+                  <span
+                    onClick={() => setFormType("user-register")}
+                    className="text-blue-600 cursor-pointer font-semibold"
+                  >
+                    Register here
+                  </span>
+                </p>
+              </>
+            )}
+
+            {formType === "user-register" && (
+              <>
+                <button
+                  onClick={handleRegister}
+                  className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition"
+                >
+                  Register
+                </button>
+                <p className="text-sm mt-3 text-center text-gray-800">
+                  Already have an account?{" "}
+                  <span
+                    onClick={() => setFormType("user-login")}
+                    className="text-blue-600 cursor-pointer font-semibold"
+                  >
+                    Login here
+                  </span>
+                </p>
+              </>
+            )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
+
+      {/* Animations via Tailwind plugin (optional if using custom CSS) */}
+      <style>
+        {`
+          @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          .animate-fade-in {
+            animation: fade-in 1s ease-in;
+          }
+
+          @keyframes slide-up {
+            from {
+              opacity: 0;
+              transform: translateY(40px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          .animate-slide-up {
+            animation: slide-up 0.8s ease-out;
+          }
+        `}
+      </style>
     </div>
   );
 };

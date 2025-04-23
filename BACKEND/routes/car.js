@@ -1,4 +1,3 @@
-// routes/car.js
 const express = require("express");
 const router = express.Router();
 const Car = require("../models/carModel");

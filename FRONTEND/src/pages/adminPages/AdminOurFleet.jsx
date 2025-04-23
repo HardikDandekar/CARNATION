@@ -33,6 +33,7 @@ const AdminOurFleet = () => {
       setNewCar({ name: '', price: '', image: '' });
       dispatch(fetchCars());
     } catch (err) {
+      console.log(err)
       alert('❌ Error adding car');
     }
   };
