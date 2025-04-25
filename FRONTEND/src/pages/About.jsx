@@ -27,11 +27,14 @@ const About = () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <Header />
+         <Header />
         <div className="flex justify-center items-center h-full">
+      
           <motion.h1
+
+          
             variants={fadeIn}
-            className="text-zinc-100 text-4xl sm:text-5xl md:text-6xl font-extrabold"
+            className="text-zinc-100 text-4xl sm:text-5xl md:text-6xl mb-40 font-extrabold"
           >
             About Us
           </motion.h1>

@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCars } from "../../store/reducers/CarSlice";
 import axios from "axios";
+const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 const containerStyle = {
   width: "100%",
@@ -118,7 +119,7 @@ const CityMapForm = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/razorpay/create-order", {
+      const res = await fetch(`${baseurl}/api/razorpay/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: Math.round(total * 100) }), // in paise
@@ -153,7 +154,7 @@ const CityMapForm = () => {
             paymentStatus: true,
           };
           
-          const bookingRes = await fetch("http://localhost:3000/api/bookings", {
+          const bookingRes = await fetch(`${baseurl}/api/bookings`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(bookingData),

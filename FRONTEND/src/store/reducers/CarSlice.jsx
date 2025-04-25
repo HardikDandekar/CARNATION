@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 // Backend se car fetch karne wala thunk
 export const fetchCars = createAsyncThunk("car/fetchCars", async () => {
-  const res = await axios.get("http://localhost:3000/api/cars");
+  const res = await axios.get(`${baseurl}/api/cars`);
   return res.data;
 });
 

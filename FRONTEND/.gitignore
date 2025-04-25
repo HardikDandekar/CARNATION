@@ -1,12 +1,13 @@
 # Dependency directory
 node_modules/
 
-# Build and runtime
+# Build output
 build/
 dist/
-tmp/
+
+# Runtime data
+.log/
 *.log
-logs/
 
 # Environment variables
 .env
@@ -16,10 +17,12 @@ logs/
 .env.production.local
 
 # Misc
+.cache/
 .vscode/
 *.swp
 .DS_Store
 Thumbs.db
 
-# Coverage
+# Testing
 coverage/
+jest-test-results.json

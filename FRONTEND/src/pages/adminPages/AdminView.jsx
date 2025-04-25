@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCars } from "../../store/reducers/CarSlice";
 import axios from "axios";
+const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 const AdminView = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const AdminView = () => {
     if (!window.confirm("Are you sure you want to delete this car?")) return;
   
     try {
-      await axios.delete(`http://localhost:3000/api/cars/${car._id}`);
+      await axios.delete(`${baseurl}/api/cars/${car._id}`);
       alert("✅ Car deleted");
       dispatch(fetchCars());
       navigate("/adminourfleet"); // ✅ Navigate after deleting
@@ -46,7 +47,7 @@ const AdminView = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/cars/${car._id}`, editData);
+      await axios.put(`${baseurl}/api/cars/${car._id}`, editData);
       alert("✅ Car updated");
       dispatch(fetchCars());
       setIsEditing(false);

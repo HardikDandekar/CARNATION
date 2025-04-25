@@ -15,28 +15,38 @@ const fadeIn = {
 const Services = () => {
   return (
     <>
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
-        className='h-[250px] sm:h-[300px] md:h-[350px]'
-        style={{
-          backgroundImage: "url('/images/bg-images/services.avif')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat"
-        }}
-      >
-        <Header />
-        <div className='flex justify-center items-center h-full'>
-          <motion.h1
-            variants={fadeIn}
-            className='text-zinc-100 text-4xl sm:text-5xl md:text-6xl font-extrabold'
-          >
-            Services
-          </motion.h1>
-        </div>
-      </motion.div>
+    <motion.div
+  initial="hidden"
+  animate="visible"
+  variants={fadeIn}
+  className='relative h-[250px] sm:h-[300px] md:h-[350px]'
+  style={{
+    backgroundImage: "url('/images/bg-images/services.avif')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat"
+  }}
+>
+  {/* Header fixed at top */}
+  <div className="absolute top-0 left-0 w-full z-20">
+    <Header />
+  </div>
+
+  {/* Centered Heading */}
+  <div className='flex justify-center items-center h-full relative z-10'>
+    <motion.h1
+      variants={fadeIn}
+      className='text-zinc-100 text-3xl sm:text-5xl md:text-6xl font-extrabold text-center mt-24'
+    >
+      Services
+    </motion.h1>
+  </div>
+
+  {/* Optional overlay for better text visibility */}
+  <div className="absolute inset-0 bg-black/30 z-0"></div>
+</motion.div>
+
+
 
       <section className='bg-neutral-300 py-10'>
         <div className='max-w-6xl mx-auto px-4'>

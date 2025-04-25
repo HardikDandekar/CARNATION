@@ -1,20 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 const Dashboard = () => {
-  const [formType, setFormType] = useState(""); // 'admin' | 'user-login' | 'user-register'
+  const [formType, setFormType] = useState("");
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const updateVideo = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        setVideoUrl("https://videos.pexels.com/video-files/3066446/3066446-sd_960_506_24fps.mp4");
+     
+      } else {
+        setVideoUrl("https://videos.pexels.com/video-files/5927708/5927708-hd_1080_1920_30fps.mp4");
+       
+      }
+    };
+
+    updateVideo();
+    window.addEventListener("resize", updateVideo);
+
+    return () => window.removeEventListener("resize", updateVideo);
+  }, []);
 
   const handleRegister = async () => {
     try {
       const payload = { name, mobile, email, password };
-      const res = await axios.post("http://localhost:3000/api/auth/register", payload);
+      const res = await axios.post(`${baseurl}/api/auth/register`, payload);
       alert(res.data.message);
       setFormType("user-login");
     } catch (err) {
@@ -24,7 +44,7 @@ const Dashboard = () => {
 
   const handleAdminLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/login/admin", { email, password });
+      const res = await axios.post(`${baseurl}/api/auth/login/admin`, { email, password });
       if (res.data.role === "admin") {
         localStorage.setItem("userName", res.data.adminName);
         alert("Admin Login Success");
@@ -39,7 +59,7 @@ const Dashboard = () => {
 
   const handleUserLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/login", { email, password });
+      const res = await axios.post(`${baseurl}/api/auth/login`, { email, password });
       if (res.data.role === "user") {
         localStorage.setItem("userName", res.data.userName);
         alert("User Login Success");
@@ -55,18 +75,15 @@ const Dashboard = () => {
   return (
     <div className="relative h-screen w-full overflow-hidden">
       {/* Background Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="/Users/hardikdandekar/Desktop/MajorProject/FRONTEND/src/assets 19-35-03-188/16431350-sd_640_360_24fps.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      {videoUrl && (
+        <video autoPlay muted loop className="absolute inset-0 h-full w-full object-cover">
+          <source src={videoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-10" />
+      <div className="absolute inset-0 z-10" />
 
       {/* Content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4">
@@ -183,7 +200,7 @@ const Dashboard = () => {
         )}
       </div>
 
-      {/* Animations via Tailwind plugin (optional if using custom CSS) */}
+      {/* Animations */}
       <style>
         {`
           @keyframes fade-in {

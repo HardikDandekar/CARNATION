@@ -35,28 +35,29 @@ const OurFleet = () => {
 
   return (
     <>
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
-        className='h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px]'
-        style={{
-          backgroundImage: "url('/images/bg-images/ourFleet.avif')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      >
-        <Header />
-        <div className='flex justify-center items-center h-full'>
-          <motion.h1
-            variants={fadeInUp}
-            className='text-zinc-100 mb-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold'
-          >
-            Our Fleet
-          </motion.h1>
-        </div>
-      </motion.div>
+   <motion.div
+  initial="hidden"
+  animate="visible"
+  variants={fadeInUp}
+  className="h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] relative"
+  style={{
+    backgroundImage: "url('/images/bg-images/ourFleet.avif')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }}
+>
+  <Header />
+  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
+    <motion.h1
+      variants={fadeInUp}
+      className="text-zinc-100 mb-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mt-48"
+    >
+      Our Fleet
+    </motion.h1>
+  </div>
+</motion.div>
+
 
       <section className='bg-neutral-300 mt-6 md:mt-8 lg:mt-10 px-3 sm:px-6 md:px-12 lg:px-20 pb-10'>
         <div className='mb-4 flex flex-col sm:flex-row gap-3 items-center justify-center md:justify-start'>

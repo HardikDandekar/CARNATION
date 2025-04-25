@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 const UserAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -19,7 +20,7 @@ const UserAuth = () => {
 
     try {
       if (isLogin) {
-        const res = await axios.post("http://localhost:3000/api/login", {
+        const res = await axios.post(`${baseurl}/api/login`, {
           email,
           password
         });
@@ -33,7 +34,7 @@ const UserAuth = () => {
         alert("✅ " + res.data.message);
         navigate("/home");
       } else {
-        const res = await axios.post("http://localhost:3000/api/register", {
+        const res = await axios.post(`${baseurl}/api/register`, {
           name,
           email,
           password

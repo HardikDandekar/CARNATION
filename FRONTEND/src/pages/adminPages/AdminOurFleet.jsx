@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { fetchCars } from '../../store/reducers/CarSlice';
 import axios from 'axios';
 import AdminHeader from './component/AdminHeader';
+const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -28,7 +29,7 @@ const AdminOurFleet = () => {
 
   const handleAddCar = async () => {
     try {
-      await axios.post('http://localhost:3000/api/cars/create', newCar);
+      await axios.post(`${baseurl}/api/cars/create`, newCar);
       alert('✅ Car Added');
       setNewCar({ name: '', price: '', image: '' });
       dispatch(fetchCars());

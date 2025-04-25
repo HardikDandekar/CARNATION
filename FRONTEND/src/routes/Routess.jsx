@@ -10,7 +10,7 @@ import CityMapForm from "../pages/adminPages/CityMapForm";
 import AdminOurFleet from "../pages/adminPages/AdminOurFleet";
 import AdminLogin from "../pages/adminPages/component/AdminLogin";
 import UserAuth from "../pages/adminPages/component/UserAuth";
-import AdminView from "../pages/adminPages/adminView";
+import AdminView from "../pages/adminPages/AdminView";
 import AdminHome from "../pages/adminPages/Nav/AdminHome";
 import AdminAbout from "../pages/adminPages/Nav/AdminAbout";
 import AdminService from "../pages/adminPages/Nav/AdminService";

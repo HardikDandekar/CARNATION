@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 const AdminBookingList = () => {
   const [bookings, setBookings] = useState([]);
@@ -8,7 +9,7 @@ const AdminBookingList = () => {
 
   const fetchBookings = () => {
     axios
-      .get("http://localhost:3000/api/bookings")
+      .get(`${baseurl}/api/bookings`)
       .then((res) => setBookings(res.data))
       .catch((err) => console.error("❌ Error loading bookings", err));
   };
@@ -20,7 +21,7 @@ const AdminBookingList = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
       try {
-        await axios.delete(`http://localhost:3000/api/bookings/${id}`);
+        await axios.delete(`${baseurl}/api/bookings/${id}`);
         alert("✅ Booking deleted");
         fetchBookings();
       } catch (err) {

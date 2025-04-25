@@ -22,7 +22,7 @@ const Header = () => {
   };
 
   return (
-    <nav className='flex flex-col sm:flex-row justify-between items-center py-3 px-4 sm:px-8 '>
+    <nav className='flex flex-col sm:flex-row justify-between items-center  py-3 px-4 sm:px-8 '>
       <div className='text-white text-2xl sm:text-3xl font-bold mb-3 sm:mb-0'>
         <h1 className='text-3xl'>Car <span className='text-4xl text-red-400 font-extrabold'>Nation</span></h1>
       </div>
