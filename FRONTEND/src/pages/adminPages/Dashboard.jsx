@@ -18,10 +18,11 @@ const Dashboard = () => {
     const updateVideo = () => {
       const width = window.innerWidth;
       if (width < 768) {
-        setVideoUrl("https://videos.pexels.com/video-files/3066446/3066446-sd_960_506_24fps.mp4");
+        setVideoUrl("https://videos.pexels.com/video-files/5927708/5927708-hd_1080_1920_30fps.mp4");
+       
      
       } else {
-        setVideoUrl("https://videos.pexels.com/video-files/5927708/5927708-hd_1080_1920_30fps.mp4");
+        setVideoUrl("https://videos.pexels.com/video-files/3066446/3066446-sd_960_506_24fps.mp4");
        
       }
     };

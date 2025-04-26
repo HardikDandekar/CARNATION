@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCars } from "../../store/reducers/CarSlice";
 import axios from "axios";
+import { motion } from 'framer-motion';
 const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 const AdminView = () => {
@@ -68,9 +69,46 @@ const AdminView = () => {
     );
   }
 
+  const fadeInUps = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.15, duration: 0.5 }
+    })
+  };
+
   return (
     <>
-      <div
+<motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUps}
+        className="h-[250px] sm:h-[300px] md:h-[350px]"
+        style={{
+          backgroundImage: "url('/images/bg-images/about.avif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+         <Header />
+        <div className="flex justify-center items-center h-full">
+      
+          <motion.h1
+
+          
+            variants={fadeInUps}
+            className="text-zinc-100 text-4xl sm:text-5xl md:text-6xl mb-40 font-extrabold"
+          >
+            Vehicle Detail
+            
+          </motion.h1>
+        </div>
+      </motion.div>
+
+
+      {/* <div
         className="h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px]"
         style={{
           backgroundImage: "url('/images/bg-images/about.avif')",
@@ -85,7 +123,7 @@ const AdminView = () => {
             Vehicle Detail
           </h1>
         </div>
-      </div>
+      </div> */}
 
       <section className="bg-neutral-200 py-10 px-4 sm:px-10 md:px-20">
         <div className="flex flex-col lg:flex-row gap-10">

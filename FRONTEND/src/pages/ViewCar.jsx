@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCars } from "../store/reducers/CarSlice";
+import { motion } from 'framer-motion';
 
 const ViewCar = () => {
   const navigate = useNavigate();
@@ -32,10 +33,22 @@ const ViewCar = () => {
     return <div className="text-center mt-10 text-xl text-blue-600">Loading car details...</div>;
   }
 
+  const fadeInUps = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.15, duration: 0.5 }
+    })
+  };
+
   return (
     <>
-      <div
-        className="h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px]"
+    <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUps}
+        className="h-[250px] sm:h-[300px] md:h-[350px]"
         style={{
           backgroundImage: "url('/images/bg-images/about.avif')",
           backgroundSize: "cover",
@@ -43,13 +56,20 @@ const ViewCar = () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <Header />
+         <Header />
         <div className="flex justify-center items-center h-full">
-          <h1 className="text-zinc-100 mb-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold">
+      
+          <motion.h1
+
+          
+            variants={fadeInUps}
+            className="text-zinc-100 text-4xl sm:text-5xl md:text-6xl mb-40 font-extrabold"
+          >
             Vehicle Detail
-          </h1>
+            
+          </motion.h1>
         </div>
-      </div>
+      </motion.div>
 
       <section className="bg-neutral-200 py-10 px-4 sm:px-10 md:px-20">
         <div className="flex flex-col lg:flex-row gap-10">
