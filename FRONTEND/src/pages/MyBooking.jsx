@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const baseurl = import.meta.env.VITE_API_BASE_URL;
 
 const MyBooking = () => {
   const [user, setUser] = useState(null);
@@ -22,7 +23,7 @@ const MyBooking = () => {
       const fetchBookings = async () => {
         try {
           setLoading(true);
-          const response = await axios.get(`http://localhost:3000/api/bookings/history/${user._id}`);
+          const response = await axios.get(`${baseurl}/api/bookings/history/${user._id}`);
           console.log("Fetched Bookings:", response.data);
           setBookings(response.data);
         } catch (err) {
