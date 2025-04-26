@@ -34,6 +34,7 @@ const Home = () => {
             </p>
             <motion.button 
               whileHover={{ scale: 1.05 }} 
+              onClick={() => navigate("/services")}
               className='bg-amber-400 py-2 sm:py-3 px-6 sm:px-7 rounded-2xl text-sm sm:text-base'
             >
               Explore more
@@ -65,7 +66,7 @@ const Home = () => {
               <motion.button 
                 whileTap={{ scale: 0.95 }} 
                 whileHover={{ scale: 1.05 }} 
-                onClick={() => navigate("ourFleet")}
+                onClick={() => navigate("/ourFleet")}
                 className="mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-5 rounded-full transition duration-300"
               >
                 View Our Fleet

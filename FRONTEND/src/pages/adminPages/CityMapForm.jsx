@@ -35,12 +35,21 @@ const CityMapForm = () => {
   const [dropRef, setDropRef] = useState(null);
   const [pickupDate, setPickupDate] = useState("");
   const summaryRef = useRef(null);
-  const [user, setUser] = useState({ name: "", email: "" });
-
+  const [user, setUser] = useState({_id :"", name: "", email: ""});
   const { id } = useParams();
   const dispatch = useDispatch();
   const { cars } = useSelector((state) => state.car);
   const [car, setCar] = useState(null);
+  const [userId , setUserId] = useState("");
+
+
+
+  // useEffect(() => {
+  //   const data = localStorage.getItem('loginUser');
+  //   if (data) {
+  //     setUserId(JSON.parse(data)._id); // ✅ Parse karna zaroori hai
+  //   }
+  // }, []);
 
   useEffect(() => {
     dispatch(fetchCars());
@@ -53,13 +62,28 @@ const CityMapForm = () => {
     }
   }, [cars, id]);
 
+  // useEffect(() => {
+  //   const userData = JSON.parse(localStorage.getItem("user"));
+  //   if (userData?.name && userData?.email , userData?._id) {
+  //     setUser(userData);
+  //     setUsername(userData.name);
+  //     setUserId(userData._id);  
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user"));
-    if (userData?.name && userData?.email) {
-      setUser(userData);
-      setUsername(userData.name);
+    const storedUser = localStorage.getItem('loginUser');
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      if (userData?._id && userData?.name && userData?.email) {
+        setUser(userData);         // pura user set
+        setUsername(userData.name);
+        setUserId(userData._id);    // id bhi set
+      }
     }
   }, []);
+  
+
 
   const getRoute = (origin, destination) => {
     const directionsService = new window.google.maps.DirectionsService();
@@ -83,31 +107,67 @@ const CityMapForm = () => {
     );
   };
 
+
   const handleAddressSubmit = () => {
     const pickupPlace = pickupRef?.getPlace();
     const dropPlace = dropRef?.getPlace();
-
-    if (!pickupPlace || !dropPlace || !pickupDate || !username || !mobile) {
-      alert("Please fill all details correctly");
+  
+    if (!pickupPlace?.geometry?.location || !dropPlace?.geometry?.location || !pickupDate || !username || !mobile) {
+      alert("Please select valid pickup and drop locations and fill all details.");
       return;
     }
-
+  
     const pickupLatLng = {
       lat: pickupPlace.geometry.location.lat(),
       lng: pickupPlace.geometry.location.lng(),
     };
-
+  
     const dropLatLng = {
       lat: dropPlace.geometry.location.lat(),
       lng: dropPlace.geometry.location.lng(),
     };
-
+  
+    console.log("Pickup Coordinates:", pickupLatLng);
+    console.log("Drop Coordinates:", dropLatLng);
+  
     setPickup({ ...pickupLatLng, name: pickupPlace.formatted_address });
     setDrop({ ...dropLatLng, name: dropPlace.formatted_address });
     getRoute(pickupLatLng, dropLatLng);
     setShowSummary(true);
     setTimeout(() => summaryRef.current?.scrollIntoView({ behavior: "smooth" }), 200);
   };
+  
+
+//   const handleAddressSubmit = () => {
+//     const pickupPlace = pickupRef?.getPlace();
+//     const dropPlace = dropRef?.getPlace();
+    
+//     if (!pickupPlace?.geometry?.location || !dropPlace?.geometry?.location) {
+//       alert("Please select valid pickup and drop locations from the dropdown.");
+//       return;
+//     }
+
+//     console.log("Pickup Place:", pickupPlace);
+// console.log("Drop Place:", dropPlace);
+
+    
+
+//     const pickupLatLng = {
+//       lat: pickupPlace.geometry.location.lat(),
+//       lng: pickupPlace.geometry.location.lng(),
+//     };
+
+//     const dropLatLng = {
+//       lat: dropPlace.geometry.location.lat(),
+//       lng: dropPlace.geometry.location.lng(),
+//     };
+
+//     setPickup({ ...pickupLatLng, name: pickupPlace.formatted_address });
+//     setDrop({ ...dropLatLng, name: dropPlace.formatted_address });
+//     getRoute(pickupLatLng, dropLatLng);
+//     setShowSummary(true);
+//     setTimeout(() => summaryRef.current?.scrollIntoView({ behavior: "smooth" }), 200);
+//   };
 
   const carPrice = car ? parseInt(car.price.replace(/[^\d]/g, "")) : 0;
   const total = price + carPrice;
@@ -140,6 +200,7 @@ const CityMapForm = () => {
         },
         handler: async function (response) {
           const bookingData = {
+            userId : user._id,
             name: username,
             email: user.email,
             mobile,

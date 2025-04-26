@@ -35,7 +35,36 @@ const OurFleet = () => {
 
   return (
     <>
-   <motion.div
+
+<motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUp}
+        className="h-[250px] sm:h-[300px] md:h-[350px]"
+        style={{
+          backgroundImage: "url('/images/bg-images/ourFleet.avif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+         <Header />
+        <div className="flex justify-center items-center h-full">
+      
+          <motion.h1
+
+          
+            variants={fadeInUp}
+            className="text-zinc-100 text-4xl sm:text-5xl md:text-6xl mb-40 font-extrabold"
+          >
+            Our Fleet
+          </motion.h1>
+        </div>
+      </motion.div>
+
+
+
+   {/* <motion.div
   initial="hidden"
   animate="visible"
   variants={fadeInUp}
@@ -56,7 +85,7 @@ const OurFleet = () => {
       Our Fleet
     </motion.h1>
   </div>
-</motion.div>
+</motion.div> */}
 
 
       <section className='bg-neutral-300 mt-6 md:mt-8 lg:mt-10 px-3 sm:px-6 md:px-12 lg:px-20 pb-10'>

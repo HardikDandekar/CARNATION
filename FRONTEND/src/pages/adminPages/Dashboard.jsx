@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [user , setUser] = useState([]);
 
   const navigate = useNavigate();
 
@@ -61,7 +62,9 @@ const Dashboard = () => {
     try {
       const res = await axios.post(`${baseurl}/api/auth/login`, { email, password });
       if (res.data.role === "user") {
-        localStorage.setItem("userName", res.data.userName);
+        localStorage.setItem("userName", res.data.user.name);
+        localStorage.setItem("loginUser", JSON.stringify(res.data.user));
+        setUser(res.data.user ||[])
         alert("User Login Success");
         navigate("/home");
       } else {

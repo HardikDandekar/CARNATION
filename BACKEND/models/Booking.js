@@ -28,7 +28,7 @@ const bookingSchema = new mongoose.Schema({
   paymentStatus: {
     type: Boolean,
     default: false, // false = Pending, true = Paid
-  },
+  }
 });
 
 module.exports = mongoose.model("Booking", bookingSchema);

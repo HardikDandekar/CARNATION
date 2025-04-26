@@ -22,12 +22,12 @@ const UserAuth = () => {
       if (isLogin) {
         const res = await axios.post(`${baseurl}/api/login`, {
           email,
-          password
+          password,
         });
 
         localStorage.setItem("user", JSON.stringify({
           name: res.data.role === "admin" ? res.data.adminName : res.data.userName,
-          email: res.data.email
+          email: res.data.email,
         }));
         localStorage.setItem("role", res.data.role);
 

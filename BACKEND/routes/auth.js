@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
     return res.status(200).json({
       message: "User login successful",
       role: "user",
-      userName: user.name
+      user: user,
     });
 
   } catch (err) {
@@ -70,5 +70,8 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+
 
 module.exports = router;

@@ -15,6 +15,7 @@ import AdminHome from "../pages/adminPages/Nav/AdminHome";
 import AdminAbout from "../pages/adminPages/Nav/AdminAbout";
 import AdminService from "../pages/adminPages/Nav/AdminService";
 import AdminBookingList from "../pages/adminPages/AdminBookingList";
+import MyBooking from "../pages/MyBooking";
 
 const Routess = () => {
   return (
@@ -41,6 +42,8 @@ const Routess = () => {
       <Route path="/services" element={<Services />} />
       <Route path="/about" element={<About />} />
       <Route path="/ourFleet" element={<OurFleet />} />
+      <Route path="/myBooking" element={<MyBooking />} />
+      
 
       {/* Nested Route */}
       <Route path="/ourFleet/:id" element={<ViewCar />}>
