@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [password, setPassword] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [user , setUser] = useState([]);
+  const [loading , setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,17 +36,21 @@ const Dashboard = () => {
 
   const handleRegister = async () => {
     try {
+      setLoading(true);
       const payload = { name, mobile, email, password };
       const res = await axios.post(`${baseurl}/api/auth/register`, payload);
       alert(res.data.message);
       setFormType("user-login");
     } catch (err) {
       alert(err.response?.data?.message || "Registration failed");
+    }finally{
+      setLoading(false);
     }
   };
 
   const handleAdminLogin = async () => {
     try {
+      setLoading(true);
       const res = await axios.post(`${baseurl}/api/auth/login/admin`, { email, password });
       if (res.data.role === "admin") {
         localStorage.setItem("userName", res.data.adminName);
@@ -56,11 +61,14 @@ const Dashboard = () => {
       }
     } catch (err) {
       alert(err.response?.data?.message || "Admin login failed");
+    }finally{
+      setLoading(false);
     }
   };
 
   const handleUserLogin = async () => {
     try {
+      setLoading(true);
       const res = await axios.post(`${baseurl}/api/auth/login`, { email, password });
       if (res.data.role === "user") {
         localStorage.setItem("userName", res.data.user.name);
@@ -73,9 +81,14 @@ const Dashboard = () => {
       }
     } catch (err) {
       alert(err.response?.data?.message || "User login failed");
+    }finally{
+      setLoading(false);
     }
   };
 
+  if(loading){
+   return(<div className="h-screen w-full flex justify-center items-center "> <h1 className="font-extrabold">Loading...</h1></div>)
+  }
   return (
     <div className="relative h-screen w-full overflow-hidden">
       {/* Background Video */}
